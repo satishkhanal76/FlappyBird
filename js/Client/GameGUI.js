@@ -76,6 +76,9 @@ export class GameGUI {
     }
 
     clicked() {
+        this.#game.getBird().flap();
+
+        
         if(this.#game.getCurrentState() === Game.STATES.OVER) {
             this.#game.restart();
         }
@@ -86,7 +89,6 @@ export class GameGUI {
             return;
         }
         
-        this.#game.getBird().flap();
     }
 
     configureCanvas() {
