@@ -1,5 +1,6 @@
 import { GameLoop } from "../classes/GameLoop.js";
 import { Bird } from "./Bird.js";
+import { Pipe } from "./Pipe.js";
 
 export class Game {
 
@@ -18,6 +19,8 @@ export class Game {
 
     #bird;
 
+    #pipe;
+
 
     constructor(width, height) {
 
@@ -29,6 +32,11 @@ export class Game {
         this.createGameLoop();
 
         this.createBird();
+        this.createPipe();
+    }
+
+    createPipe() {
+        this.#pipe = new Pipe(this.#width / 2, 0, 50, 200);
     }
 
 
@@ -43,22 +51,50 @@ export class Game {
     }
 
     update(deltaTime) {
-        this.#bird.update(deltaTime);
+        this.#bird.update(this);
+        this.#pipe.update(this);
         
-        if(this.#currentState == Game.STATES.RUNNING) {
-            this.checkForOver();
-        };
+        if(this.#currentState !== Game.STATES.RUNNING) return;
+
+
+        //check for game over conditions
+        if(this.outOFBounds()) {
+            this.setCurrentState(Game.STATES.OVER);
+        }
+
+        if(this.cheats(this.#bird, this.#pipe)) {
+            this.setCurrentState(Game.STATES.OVER);
+        }
+
+        if(this.collide(this.#bird, this.#pipe)) {
+            this.setCurrentState(Game.STATES.OVER);
+        }
     }
 
-    checkForOver() {
-        //bird goes below means game over
-        let birdBody = this.#bird.getY();
+    outOFBounds() {
+        return (this.#bird.getY() > this.#height);
+    }
 
-        if(birdBody > this.#height) {
-            this.#currentState = Game.STATES.OVER;
-            this.#bird.setCurrentState(Bird.STATES.DEAD);
-        }
-        
+    cheats(bird, pipe) {
+        return ((bird.getY() + bird.getRadius() < 0) && 
+                (bird.getX() > pipe.getX()) && 
+                (bird.getX() - bird.getRadius() < pipe.getX() + pipe.getWidth()));
+    }
+
+    collide(bird, pipe) {
+        let birdX, birdY, birdRadius, pipeX, pipeY, pipeWidth, pipeHeight;
+        birdX = bird.getX();
+        birdY = bird.getY();
+        birdRadius = bird.getRadius();
+        pipeX = pipe.getX();
+        pipeY = pipe.getY();
+        pipeWidth = pipe.getWidth();
+        pipeHeight = pipe.getHeight();
+
+        return ((birdX + birdRadius > pipeX) && 
+                (birdX - birdRadius < pipeX + pipeWidth) &&
+                (birdY + birdRadius > pipeY) &&
+                (birdY - birdRadius < pipeY + pipeHeight));
     }
 
     createBird() {
@@ -67,6 +103,10 @@ export class Game {
 
     getBird() {
         return this.#bird;
+    }
+
+    getPipe() {
+        return this.#pipe;
     }
 
     getWidth() {

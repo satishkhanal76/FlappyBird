@@ -2,6 +2,7 @@ import { GameLoop } from "../classes/GameLoop.js";
 import { Bird } from "../Logic/Bird.js";
 import { Game } from "../Logic/Game.js";
 import { BirdGUI } from "./BirdGUI.js";
+import { PipeGUI } from "./PipeGUI.js";
 
 export class GameGUI {
 
@@ -15,6 +16,7 @@ export class GameGUI {
 
 
     #guiBird;
+    #guiPipe;
 
     constructor(canvas) {
         
@@ -30,6 +32,7 @@ export class GameGUI {
 
 
         this.#guiBird = new BirdGUI(this.#game);
+        this.#guiPipe = new PipeGUI(this.#game);
         
     }
 
@@ -41,6 +44,9 @@ export class GameGUI {
         
         //draw the bird
         this.#guiBird.draw(this.#ctx);
+
+        //draw the pipe
+        this.#guiPipe.draw(this.#ctx);
         
         this.#ctx.fillStyle = "#ffffff";
         this.#ctx.font = "30px Arial";

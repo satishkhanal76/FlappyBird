@@ -1,3 +1,5 @@
+import { Game } from "./Game.js";
+
 export class Bird {
     
     static STATES = {
@@ -46,15 +48,20 @@ export class Bird {
         this.#radius = 15;
     }
 
-    update(deltaTime) {
+    update(game) {
+        let deltatime = game.getDeltaTime();
+        
+        if(game.getCurrentState() === Game.STATES.OVER) {
+            this.#currentState = Bird.STATES.DEAD;
+        }
 
         // make the bird fall
         if(this.#currentState === Bird.STATES.FALLING) {
-            this.#yVelocity = this.#yVelocity + (Bird.GRAVITY * deltaTime);
+            this.#yVelocity = this.#yVelocity + (Bird.GRAVITY * deltatime);
         }
         
         if(this.#currentState === Bird.STATES.FLAPPING) {
-            this.#yVelocity = this.#yVelocity - (this.#flapForce * deltaTime);
+            this.#yVelocity = this.#yVelocity - (this.#flapForce * deltatime);
         }
 
         //if the bird is dead then just return
