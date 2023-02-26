@@ -11,3 +11,7 @@ body.addEventListener("keypress", eve => {
     gameGUI.keyPressed(eve);
 })
 
+
+body.addEventListener("click", eve => {
+    gameGUI.clicked(eve);
+})
