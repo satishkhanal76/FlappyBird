@@ -4,6 +4,7 @@ export class GameLoop {
 
     #deltaTime;
     #lastTimeStamp;
+    #frameCount;
 
     /**
      * 
@@ -11,6 +12,7 @@ export class GameLoop {
      */
     constructor(interatable) {
         this.#interatable = interatable;
+        this.#frameCount = 0;
     }
 
     #update(timestamp) {
@@ -23,6 +25,7 @@ export class GameLoop {
         this.#deltaTime = timestamp - this.#lastTimeStamp;
 
         this.#interatable.update(this.#deltaTime);
+        this.#frameCount = this.#frameCount + 1;
 
         this.#lastTimeStamp = timestamp;
         window.requestAnimationFrame(t => this.#update(t));
@@ -35,5 +38,8 @@ export class GameLoop {
 
     getDeltaTime() {
         return this.#deltaTime;
+    }
+    getFrameCount() {
+        return this.#frameCount;
     }
 }
