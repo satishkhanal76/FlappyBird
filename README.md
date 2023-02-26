@@ -1,6 +1,6 @@
 # Flappy Bird (Clone)
 
-Recreation of the [Flappy Bird](https://en.wikipedia.org/wiki/Flappy_Bird) game in Javascript. Only created for Educational Purpose and will not distribute or yield any profit from this project.
+Recreation of the [Flappy Bird](https://en.wikipedia.org/wiki/Flappy_Bird) game in Javascript. Only created for Educational Purposes. This project will not be distributed or will not yield any profit.
 
 ## Run project on the web
 * View it on [Github Pages](https://satishkhanal76.github.io/FlappyBird/).
