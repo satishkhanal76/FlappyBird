@@ -62,14 +62,19 @@ export class GameGUI {
         this.#ctx.fillStyle = "#ffffff";
         this.#ctx.font = "30px Arial";
         this.#ctx.textAlign = "center";
-
+        this.#ctx.strokeStyle = "black";
+        this.#ctx.lineWidth = 5;
 
         if(this.#game.getCurrentState() === Game.STATES.START) {
+            this.#ctx.strokeText(`"SPACE" TO BEGIN`, this.#game.getWidth() / 2, this.#game.getHeight() / 3);
             this.#ctx.fillText(`"SPACE" TO BEGIN`, this.#game.getWidth() / 2, this.#game.getHeight() / 3);
         }
         if(this.#game.getCurrentState() === Game.STATES.OVER) {
+            this.#ctx.strokeText(`GAME OVER`, this.#game.getWidth() / 2, this.#game.getHeight() / 3);
             this.#ctx.fillText(`GAME OVER`, this.#game.getWidth() / 2, this.#game.getHeight() / 3);
         }
+        
+        
     }
 
     keyPressed(eve) {
