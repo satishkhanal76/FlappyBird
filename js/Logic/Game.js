@@ -19,7 +19,7 @@ export class Game {
 
     #bird;
 
-    #pipe;
+    #pipes = [];
 
 
     constructor(width, height) {
@@ -32,11 +32,82 @@ export class Game {
         this.createGameLoop();
 
         this.createBird();
-        this.createPipe();
+        this.createPipes();
     }
 
-    createPipe() {
-        this.#pipe = new Pipe(this.#width / 2, 0, 50, 200);
+    createPipes() {
+        let pipePosition;
+        let topPipe, bottomPipe;
+
+        for(let i = 1; i <= 2; i++) {
+            pipePosition = this.getNewPipePositions();
+
+            pipePosition["topPipe"].x *= i;
+            pipePosition["bottomPipe"].x *= i;
+
+            topPipe = new Pipe();
+            bottomPipe = new Pipe();
+            this.setPipePosition(topPipe, bottomPipe, pipePosition);
+
+            this.#pipes.push(topPipe, bottomPipe);
+        }
+    }
+
+    setPipePosition(topPipe, bottomPipe, pipePosition) {
+        let x, y, w, h;
+        x = pipePosition["topPipe"].x;
+        y = pipePosition["topPipe"].y;
+        w = pipePosition["topPipe"].w;
+        h = pipePosition["topPipe"].h;
+
+
+        topPipe.setPosition(x, y, w, h);
+
+        x = pipePosition["bottomPipe"].x;
+        y = pipePosition["bottomPipe"].y;
+        w = pipePosition["bottomPipe"].w;
+        h = pipePosition["bottomPipe"].h;
+
+
+        bottomPipe.setPosition(x, y, w, h);
+    }
+
+    getNewPipePositions() {
+        let pipePosition = {};
+
+        let verticalSpacing = this.#height / 3;
+        let horizontalSpacing = this.#width / 2;
+        let spacingStartPoint;
+
+        
+        let x, y, w, h;
+
+        spacingStartPoint = this.getRandomNumber(0, this.#height - verticalSpacing);
+
+        //top pipe
+        x = horizontalSpacing  + this.getRandomNumber(50, 100);
+        y = 0;
+        w = 50;
+        h = spacingStartPoint;
+
+        pipePosition["topPipe"] = {
+            x, y, w, h
+        }
+
+        //bottom pipe
+        y = spacingStartPoint + verticalSpacing;
+        h = this.#height - y;
+
+        pipePosition["bottomPipe"] = {
+            x, y, w, h
+        }
+        return pipePosition;
+    }
+
+
+
+    getRandomNumber(min, max) {
+        return Math.random() * (max - min) + min;
     }
 
 
@@ -52,7 +123,7 @@ export class Game {
 
     update(deltaTime) {
         this.#bird.update(this);
-        this.#pipe.update(this);
+        this.#pipes.forEach(pipe => pipe.update(this));
         
         if(this.#currentState !== Game.STATES.RUNNING) return;
 
@@ -62,13 +133,32 @@ export class Game {
             this.setCurrentState(Game.STATES.OVER);
         }
 
-        if(this.cheats(this.#bird, this.#pipe)) {
-            this.setCurrentState(Game.STATES.OVER);
-        }
+        this.#pipes.forEach(pipe => {
+            if(this.cheats(this.#bird, pipe)) {
+                this.setCurrentState(Game.STATES.OVER);
+            }
 
-        if(this.collide(this.#bird, this.#pipe)) {
-            this.setCurrentState(Game.STATES.OVER);
-        }
+            if(this.collide(this.#bird, pipe)) {
+                this.setCurrentState(Game.STATES.OVER);
+            }
+            this.checkPipePos(pipe);
+        })
+
+    }
+
+    checkPipePos(pipe) {
+        let outOfBoundsPipes = this.#pipes.filter(pipe => pipe.getX() + pipe.getWidth() < 0);
+        if(outOfBoundsPipes.length <= 0) return;
+        let topPipe = outOfBoundsPipes[0];
+        let bottomPipe = outOfBoundsPipes[1];
+        
+        let pipePosition = this.getNewPipePositions();
+
+        pipePosition["topPipe"].x = this.getWidth();
+        pipePosition["bottomPipe"].x = this.getWidth();
+
+        this.setPipePosition(topPipe, bottomPipe, pipePosition);
+
     }
 
     outOFBounds() {
@@ -105,8 +195,8 @@ export class Game {
         return this.#bird;
     }
 
-    getPipe() {
-        return this.#pipe;
+    getPipes() {
+        return this.#pipes;
     }
 
     getWidth() {

@@ -1,13 +1,11 @@
 export class BirdGUI {
 
-    #game;
 
     #bird;
 
-    constructor(game) {
-        this.#game = game;
+    constructor(bird) {
 
-        this.#bird = this.#game.getBird();
+        this.#bird = bird;
     }
 
 

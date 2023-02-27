@@ -9,17 +9,20 @@ export class Pipe {
 
 
     constructor(x, y, w, h) {
+        this.setPosition(x, y, w, h);
+    }
+
+    setPosition(x, y, w, h) {
         this.#x = x;
         this.#y = y;
         this.#width = w;
         this.#height = h;
     }
 
-
     update(game) {
         if(game.getCurrentState() !== Game.STATES.RUNNING) return; 
         let deltatime = game.getDeltaTime();
-        this.#x = this.#x - (0.09 * deltatime);
+        this.#x = this.#x - (0.1 * deltatime);
     }
 
 

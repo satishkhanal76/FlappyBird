@@ -1,19 +1,17 @@
 export class PipeGUI {
 
-    #game;
 
     #pipe;
 
-    constructor(game) {
-        this.#game = game;
+    constructor(pipe) {
 
-        this.#pipe = this.#game.getPipe();
+        this.#pipe = pipe;
     }
 
 
     draw(ctx) {
         ctx.beginPath();
-        ctx.fillStyle = 'red';
+        ctx.fillStyle = '#ffffff';
         ctx.rect(this.#pipe.getX(), this.#pipe.getY(), this.#pipe.getWidth(), this.#pipe.getHeight());
         ctx.fill();
 

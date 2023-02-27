@@ -16,7 +16,8 @@ export class GameGUI {
 
 
     #guiBird;
-    #guiPipe;
+
+    #guiPipes = [];
 
     constructor(canvas) {
         
@@ -31,9 +32,19 @@ export class GameGUI {
         
 
 
-        this.#guiBird = new BirdGUI(this.#game);
-        this.#guiPipe = new PipeGUI(this.#game);
+        this.createBirdGUI();
+        this.createPipesGUI();
         
+    }
+
+    createBirdGUI() {
+        this.#guiBird = new BirdGUI(this.#game.getBird());
+    }
+
+    createPipesGUI() {
+        this.#game.getPipes().forEach(pipe => {
+            this.#guiPipes.push(new PipeGUI(pipe));
+        });
     }
 
     update() {
@@ -45,8 +56,8 @@ export class GameGUI {
         //draw the bird
         this.#guiBird.draw(this.#ctx);
 
-        //draw the pipe
-        this.#guiPipe.draw(this.#ctx);
+        //draw the pipes
+        this.#guiPipes.forEach(pipe => pipe.draw(this.#ctx));
         
         this.#ctx.fillStyle = "#ffffff";
         this.#ctx.font = "30px Arial";
