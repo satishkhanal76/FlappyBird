@@ -171,10 +171,13 @@ export class GameGUI {
 
   configureCanvas() {
     let clientHeight = document.body.clientHeight || 400;
+    let clientWidth = document.body.clientWidth || 250;
 
     let height = clientHeight;
 
     let width = (2 / 3) * height;
+
+    if (width > clientWidth) width = clientWidth;
 
     let scale = 1;
     this.#canvas.style.width = width + "px";

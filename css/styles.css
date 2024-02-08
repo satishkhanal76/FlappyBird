@@ -1,23 +1,25 @@
 * {
-    margin: 0;
-    padding: 0;
-    border: none;
-    outline: none;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
 }
 
-html, body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-    height: 100vh;
-    width: 100vw;
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100svw;
+  height: 100svh;
+  touch-action: manipulation;
+
+  /* height: 100vh;
+  width: 100vw; */
 }
 
 #game-canvas {
-    position: absolute;
-    max-width: 100%;
-    background-color: #000000;
-    
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
