@@ -83,7 +83,7 @@ export class Game {
     //top pipe
     x = horizontalSpacing + this.getRandomNumber(50, 100);
     y = 0;
-    w = 50;
+    w = 80;
     h = spacingStartPoint;
 
     pipePosition["topPipe"] = {

@@ -18,19 +18,6 @@ export class BirdGUI {
   }
 
   draw(ctx) {
-    // console.log(this.#bird)
-    // ctx.beginPath();
-    // ctx.arc(
-    //   this.#bird.getX(),
-    //   this.#bird.getY(),
-    //   this.#bird.getRadius(),
-    //   0,
-    //   2 * Math.PI,
-    //   false
-    // );
-    // ctx.fillStyle = "green";
-    // ctx.fill();
-
     this.#rotation = this.#bird.getYVelocity() * 5;
     //move the origin to the centre of the bird
     ctx.translate(this.#bird.getX(), this.#bird.getY());

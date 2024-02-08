@@ -91,7 +91,7 @@ export class GameGUI {
     this.#ctx.font = "30px Arial";
     this.#ctx.textAlign = "center";
     this.#ctx.strokeStyle = "black";
-    this.#ctx.lineWidth = 5;
+    this.#ctx.lineWidth = 3;
 
     if (this.#game.getCurrentState() === Game.STATES.START) {
       this.#ctx.strokeText(
