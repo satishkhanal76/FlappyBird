@@ -45,19 +45,17 @@ export class Bird {
   }
 
   update(game) {
-    let deltatime = game.getDeltaTime();
-
-    if (game.getCurrentState() === Game.STATES.OVER) {
-      this.#currentState = Bird.STATES.DEAD;
-    }
-
     //if the bird is dead then just return
     if (this.#currentState === Bird.STATES.DEAD) return;
+
+    let deltatime = game.getDeltaTime();
 
     // make the bird fall
     if (this.#currentState === Bird.STATES.FALLING) {
       this.#yVelocity = this.#yVelocity + Bird.GRAVITY * deltatime;
-    } else if (this.#currentState === Bird.STATES.FLAPPING) {
+    }
+
+    if (this.#currentState === Bird.STATES.FLAPPING) {
       this.#yVelocity = this.#yVelocity - this.#flapForce * deltatime;
     }
 
@@ -78,19 +76,13 @@ export class Bird {
   flap(game) {
     if (this.#currentState !== Bird.STATES.FALLING) return;
 
-    this.#currentState = Bird.STATES.FLAPPING;
-
     let gameLoop = game.getGameLoop();
     let frameCount = gameLoop.getFrameCount();
     let deltaTime = gameLoop.getDeltaTime();
 
-    // console.log(frameCount, flapUntil);
     this.#flapUntilFrame = Math.floor(frameCount + deltaTime / 3);
 
-    // setTimeout(() => {
-    //   alert("HELLO");
-    //   this.#currentState = Bird.STATES.FALLING;
-    // }, 200);
+    this.#currentState = Bird.STATES.FLAPPING;
   }
 
   getX() {
@@ -99,6 +91,10 @@ export class Bird {
 
   getY() {
     return this.#y;
+  }
+
+  setY(y) {
+    this.#y = y;
   }
 
   getYVelocity() {

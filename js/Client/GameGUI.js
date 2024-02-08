@@ -153,7 +153,7 @@ export class GameGUI {
       return;
     }
 
-    this.#game.getBird().flap(this.#game);
+    this.#game.flapBird();
   }
 
   clicked() {
@@ -166,7 +166,7 @@ export class GameGUI {
       this.#game.getBird().setCurrentState(Bird.STATES.FALLING);
       return;
     }
-    this.#game.getBird().flap(this.#game);
+    this.#game.flapBird();
   }
 
   configureCanvas() {

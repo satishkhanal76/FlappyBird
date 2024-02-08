@@ -126,12 +126,14 @@ export class Game {
     this.#bird.update(this);
     this.#pipes.forEach((pipe) => pipe.update(this));
 
-    if (this.#currentState !== Game.STATES.RUNNING) return;
-
     //check for game over conditions
     if (this.outOFBounds()) {
       this.setCurrentState(Game.STATES.OVER);
+      this.#bird.setCurrentState(Bird.STATES.DEAD);
+      this.#bird.setY(this.#height);
     }
+
+    if (this.#currentState !== Game.STATES.RUNNING) return;
 
     this.#pipes.forEach((pipe) => {
       if (this.cheats(this.#bird, pipe)) {
@@ -141,11 +143,11 @@ export class Game {
       if (this.collide(this.#bird, pipe)) {
         this.setCurrentState(Game.STATES.OVER);
       }
-      this.checkPipePos(pipe);
     });
+    this.checkPipePos();
   }
 
-  checkPipePos(pipe) {
+  checkPipePos() {
     let outOfBoundsPipes = this.#pipes.filter(
       (pipe) => pipe.getX() + pipe.getWidth() < 0
     );
@@ -189,6 +191,11 @@ export class Game {
       birdY + birdRadius > pipeY &&
       birdY - birdRadius < pipeY + pipeHeight
     );
+  }
+
+  flapBird() {
+    if (this.#currentState === Game.STATES.OVER) return null;
+    this.#bird.flap(this);
   }
 
   createBird() {
