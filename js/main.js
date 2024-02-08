@@ -13,3 +13,7 @@ body.addEventListener("keypress", (eve) => {
 body.addEventListener("touchstart", (eve) => {
   gameGUI.clicked(eve);
 });
+
+canvas.addEventListener("click", () => {
+  canvas.requestFullscreen();
+});
