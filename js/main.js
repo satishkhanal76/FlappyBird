@@ -1,5 +1,9 @@
 import { GameGUI } from "./Client/GameGUI.js";
 
+export const getRandomNumber = (min, max) => {
+  return Math.random() * (max - min) + min;
+};
+
 const canvas = document.getElementById("game-canvas");
 
 const gameGUI = new GameGUI(canvas);

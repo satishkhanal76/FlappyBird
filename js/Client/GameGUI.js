@@ -51,10 +51,12 @@ export class GameGUI {
 
   createPipesGUI() {
     this.#game.getPipes().forEach((pipe) => {
-      let pipeGUI = pipe.isTopPipe()
-        ? new PipeGUI(pipe, "./assets/toppipe.png")
-        : new PipeGUI(pipe, "./assets/bottompipe.png");
-      this.#guiPipes.push(pipeGUI);
+      pipe.getPipes().forEach((p) => {
+        let pipeGUI = p.isTopPipe()
+          ? new PipeGUI(p, "./assets/toppipe.png")
+          : new PipeGUI(p, "./assets/bottompipe.png");
+        this.#guiPipes.push(pipeGUI);
+      });
     });
   }
 
@@ -107,11 +109,7 @@ export class GameGUI {
     }
 
     if (this.#game.getCurrentState() === Game.STATES.RUNNING) {
-      this.#ctx.strokeText(
-        `FPS: ${Math.round(this.#game.getGameLoop().getAverageFPS())}`,
-        100,
-        45
-      );
+      this.#ctx.strokeText(`Points: ${this.#game.getPoints()}`, 100, 45);
       // this.#ctx.fillText(`Delta Time: ${this.#game.getDeltaTime()}`, 100, 45);
     }
 
