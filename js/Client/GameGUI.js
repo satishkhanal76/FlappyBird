@@ -50,8 +50,8 @@ export class GameGUI {
   createPipesGUI() {
     this.#game.getPipes().forEach((pipe) => {
       let pipeGUI = pipe.isTopPipe()
-        ? new PipeGUI(pipe, "/assets/toppipe.png")
-        : new PipeGUI(pipe, "/assets/bottompipe.png");
+        ? new PipeGUI(pipe, "./assets/toppipe.png")
+        : new PipeGUI(pipe, "./assets/bottompipe.png");
       this.#guiPipes.push(pipeGUI);
     });
   }
