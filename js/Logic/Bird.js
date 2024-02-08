@@ -1,110 +1,119 @@
 import { Game } from "./Game.js";
 
 export class Bird {
-    
-    static STATES = {
-        READY: "READY",
-        FLAPPING: "FLAPPING",
-        FALLING: "FALLING",
-        DEAD: "DEAD"
+  static STATES = {
+    READY: "READY",
+    FLAPPING: "FLAPPING",
+    FALLING: "FALLING",
+    DEAD: "DEAD",
+  };
+
+  static GRAVITY = 0.04;
+
+  #initialX;
+  #initialY;
+
+  #x;
+  #y;
+  #radius;
+  #flapForce = 0.15;
+
+  #yVelocity;
+
+  #currentState;
+
+  #flapUntilFrame = null;
+
+  constructor(x, y) {
+    this.#initialX = x;
+    this.#initialY = y;
+
+    this.unset();
+
+    this.#currentState = Bird.STATES.READY;
+  }
+
+  /**
+   * Resets the states of the bird to defaults (initial state)
+   */
+  unset() {
+    this.#x = this.#initialX;
+    this.#y = this.#initialY;
+    this.#yVelocity = 0;
+    this.#flapForce = 0.15;
+    this.#radius = 18;
+  }
+
+  update(game) {
+    let deltatime = game.getDeltaTime();
+
+    if (game.getCurrentState() === Game.STATES.OVER) {
+      this.#currentState = Bird.STATES.DEAD;
     }
 
-    static GRAVITY = 0.04;
-    static FLAP_DURATION = 90;
+    //if the bird is dead then just return
+    if (this.#currentState === Bird.STATES.DEAD) return;
 
-    #initialX;
-    #initialY;
-
-    #x;
-    #y;
-    #radius;
-    #flapForce;
-    
-    #yVelocity;
-
-    #currentState
-
-
-    constructor(x, y) {
-        this.#initialX = x;
-        this.#initialY = y;
-
-
-        this.unset();
-        
-
-        this.#currentState = Bird.STATES.READY;
-
+    // make the bird fall
+    if (this.#currentState === Bird.STATES.FALLING) {
+      this.#yVelocity = this.#yVelocity + Bird.GRAVITY * deltatime;
+    } else if (this.#currentState === Bird.STATES.FLAPPING) {
+      this.#yVelocity = this.#yVelocity - this.#flapForce * deltatime;
     }
 
-    /**
-     * Resets the states of the bird to defaults (initial state)
-     */
-    unset() {
-        this.#x = this.#initialX;
-        this.#y = this.#initialY;
-        this.#yVelocity = 0;
-        this.#flapForce = 0.13;
-        this.#radius = 15;
+    if (
+      this.#flapUntilFrame &&
+      game.getGameLoop().getFrameCount() > this.#flapUntilFrame
+    ) {
+      this.#flapUntilFrame = null;
+      this.#currentState = Bird.STATES.FALLING;
     }
 
-    update(game) {
-        let deltatime = game.getDeltaTime();
-        
-        if(game.getCurrentState() === Game.STATES.OVER) {
-            this.#currentState = Bird.STATES.DEAD;
-        }
+    if (this.#yVelocity >= 15) this.#yVelocity = 15;
+    if (this.#yVelocity <= -15) this.#yVelocity = -15;
 
-        // make the bird fall
-        if(this.#currentState === Bird.STATES.FALLING) {
-            this.#yVelocity = this.#yVelocity + (Bird.GRAVITY * deltatime);
-        }
-        
-        if(this.#currentState === Bird.STATES.FLAPPING) {
-            this.#yVelocity = this.#yVelocity - (this.#flapForce * deltatime);
-        }
+    this.#y = this.#y + this.#yVelocity;
+  }
 
-        //if the bird is dead then just return
-        if(this.#currentState === Bird.STATES.DEAD) return;
-        
-        if(this.#yVelocity >= 15) this.#yVelocity = 15;
-        if(this.#yVelocity <= -15) this.#yVelocity = -15;
-        
-        this.#y = this.#y + this.#yVelocity;
-    }
+  flap(game) {
+    if (this.#currentState !== Bird.STATES.FALLING) return;
 
-    flap() {
-        if(this.#currentState !== Bird.STATES.FALLING) return;
-        this.#currentState = Bird.STATES.FLAPPING;
-        
-        setTimeout(() => {this.#currentState = Bird.STATES.FALLING}, Bird.FLAP_DURATION);
-    }
+    this.#currentState = Bird.STATES.FLAPPING;
 
+    let gameLoop = game.getGameLoop();
+    let frameCount = gameLoop.getFrameCount();
+    let deltaTime = gameLoop.getDeltaTime();
 
-    getX() {
-        return this.#x;
-    }
+    // console.log(frameCount, flapUntil);
+    this.#flapUntilFrame = Math.floor(frameCount + deltaTime / 3);
 
-    getY() {
-        return this.#y;
-    }
+    // setTimeout(() => {
+    //   this.#currentState = Bird.STATES.FALLING;
+    // }, Bird.FLAP_DURATION);
+  }
 
-    getYVelocity() {
-        return this.#yVelocity;
-    }
+  getX() {
+    return this.#x;
+  }
 
-    getRadius() {
-        return this.#radius;
-    }
+  getY() {
+    return this.#y;
+  }
 
-    getCurrentState() {
-        return this.#currentState;
-    }
+  getYVelocity() {
+    return this.#yVelocity;
+  }
 
-    setCurrentState(state) {
-        if(!Bird.STATES[state]) return;
-        this.#currentState = state;
-    }
+  getRadius() {
+    return this.#radius;
+  }
 
+  getCurrentState() {
+    return this.#currentState;
+  }
 
+  setCurrentState(state) {
+    if (!Bird.STATES[state]) return;
+    this.#currentState = state;
+  }
 }
