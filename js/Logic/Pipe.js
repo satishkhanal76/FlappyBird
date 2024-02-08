@@ -16,7 +16,7 @@ export class Pipe {
     this.#isTopPipe = isTopPipe;
   }
 
-  isTopPipe(isTopPipe) {
+  isTopPipe() {
     return this.#isTopPipe;
   }
 
@@ -30,7 +30,7 @@ export class Pipe {
   update(game) {
     if (game.getCurrentState() !== Game.STATES.RUNNING) return;
     let deltatime = game.getDeltaTime();
-    this.#x = this.#x - 0.1 * deltatime;
+    this.#x = this.#x - 0.2 * deltatime;
   }
 
   getX() {

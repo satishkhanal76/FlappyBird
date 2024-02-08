@@ -88,8 +88,9 @@ export class Bird {
     this.#flapUntilFrame = Math.floor(frameCount + deltaTime / 3);
 
     // setTimeout(() => {
+    //   alert("HELLO");
     //   this.#currentState = Bird.STATES.FALLING;
-    // }, Bird.FLAP_DURATION);
+    // }, 200);
   }
 
   getX() {
@@ -115,5 +116,9 @@ export class Bird {
   setCurrentState(state) {
     if (!Bird.STATES[state]) return;
     this.#currentState = state;
+  }
+
+  getFlapUntil() {
+    return this.#flapUntilFrame;
   }
 }

@@ -36,6 +36,8 @@ export class GameGUI {
   }
 
   restart() {
+    this.#game.restart();
+
     this.#guiPipes = [];
 
     this.createBackgroundImage();
@@ -103,6 +105,16 @@ export class GameGUI {
         this.#game.getHeight() / 3
       );
     }
+
+    if (this.#game.getCurrentState() === Game.STATES.RUNNING) {
+      this.#ctx.strokeText(
+        `FPS: ${Math.round(this.#game.getGameLoop().getAverageFPS())}`,
+        100,
+        45
+      );
+      // this.#ctx.fillText(`Delta Time: ${this.#game.getDeltaTime()}`, 100, 45);
+    }
+
     if (this.#game.getCurrentState() === Game.STATES.OVER) {
       this.#ctx.strokeText(
         `GAME OVER`,
@@ -130,7 +142,6 @@ export class GameGUI {
 
   keyPressed(eve) {
     if (this.#game.getCurrentState() === Game.STATES.OVER) {
-      this.#game.restart();
       this.restart();
     }
 
@@ -146,10 +157,8 @@ export class GameGUI {
   }
 
   clicked() {
-    this.#game.getBird().flap();
-
     if (this.#game.getCurrentState() === Game.STATES.OVER) {
-      this.#game.restart();
+      this.restart();
     }
 
     if (this.#game.getCurrentState() === Game.STATES.START) {
@@ -157,6 +166,7 @@ export class GameGUI {
       this.#game.getBird().setCurrentState(Bird.STATES.FALLING);
       return;
     }
+    this.#game.getBird().flap(this.#game);
   }
 
   configureCanvas() {
