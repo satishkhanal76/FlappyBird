@@ -14,7 +14,7 @@ export class BirdGUI {
     this.#rotationVel = 0;
 
     this.#image = new Image();
-    this.#image.src = "../assets/flappybird.png";
+    this.#image.src = "/assets/flappybird.png";
   }
 
   draw(ctx) {

@@ -5,8 +5,8 @@ export default class BackgroundHandler {
 
   constructor(width, height) {
     this.#backgroundImages.push(
-      new Background(0, 0, width, height, "../assets/flappybirdbg.png"),
-      new Background(width, 0, width, height, "../assets/flappybirdbg.png")
+      new Background(0, 0, width, height, "/assets/flappybirdbg.png"),
+      new Background(width, 0, width, height, "/assets/flappybirdbg.png")
     );
   }
 
