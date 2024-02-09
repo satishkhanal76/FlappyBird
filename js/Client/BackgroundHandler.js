@@ -10,7 +10,7 @@ export default class BackgroundHandler {
     );
   }
 
-  update() {
+  update(gameGUI) {
     let background1 = this.#backgroundImages[0];
     let background2 = this.#backgroundImages[1];
 
@@ -24,8 +24,8 @@ export default class BackgroundHandler {
       background2.setX(newX);
     }
 
-    background1.update();
-    background2.update();
+    background1.update(gameGUI);
+    background2.update(gameGUI);
   }
 
   draw(ctx) {

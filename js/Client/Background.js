@@ -21,8 +21,9 @@ export default class Background {
     ctx.fill();
   }
 
-  update() {
-    this.#x = this.#x - 2;
+  update(gameGUI) {
+    this.#x =
+      this.#x - Math.floor(gameGUI.getGame().getCurrentPipeSpeed() * 10);
   }
 
   setX(x) {

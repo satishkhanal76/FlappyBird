@@ -271,7 +271,7 @@ export class GameGUI {
     }
 
     if (this.#game.getCurrentState() === Game.STATES.RUNNING) {
-      this.#backgroundImageHandler.update();
+      this.#backgroundImageHandler.update(this);
     }
 
     this.#ctx.fillStyle = "#ffffff";
@@ -384,5 +384,9 @@ export class GameGUI {
     this.#canvas.height = height * scale;
 
     this.#ctx = this.#canvas.getContext("2d");
+  }
+
+  getGame() {
+    return this.#game;
   }
 }
