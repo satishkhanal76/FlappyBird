@@ -265,6 +265,12 @@ export class GameGUI {
   }
 
   update() {
+    if (
+      this.#game.getGameLoop().getAverageFPS() === Infinity ||
+      this.#game.getGameLoop().getAverageFPS() === -Infinity
+    ) {
+      console.log(this.#game.getGameLoop());
+    }
     //clear the background
     this.#ctx.fillStyle = "#000000";
     this.#ctx.rect(0, 0, this.#game.getWidth(), this.#game.getHeight());

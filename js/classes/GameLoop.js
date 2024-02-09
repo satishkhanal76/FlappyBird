@@ -18,6 +18,8 @@ export class GameLoop {
   constructor(interatable) {
     this.#interatable = interatable;
     this.#frameCount = 0;
+    this.#accumulation = 0;
+    this.#accumulationCount = 0;
   }
 
   #update(timestamp) {
@@ -63,7 +65,8 @@ export class GameLoop {
   }
 
   getFPS() {
-    return 1000 / this.#deltaTime;
+    let fps = 1000 / this.#deltaTime;
+    return fps === Infinity || fps === -Infinity ? 0 : fps;
   }
 
   getAverageFPS() {
