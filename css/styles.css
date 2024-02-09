@@ -54,7 +54,7 @@ body {
 
   color: whitesmoke;
 
-  display: none;
+  display: flex;
   flex-direction: column;
   gap: 0.3em;
 }
@@ -69,4 +69,16 @@ body {
 .debug-item.clickable {
   cursor: pointer;
   color: skyblue;
+}
+
+.debug-item .input-field {
+  outline: none;
+  display: inline-block;
+  background-color: limegreen;
+  border-radius: 0.2em;
+  padding: 0.2em;
+  width: fit-content;
+  color: black;
+  margin-left: 0.2em;
+  font-size: 1em;
 }

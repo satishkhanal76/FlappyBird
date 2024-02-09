@@ -27,6 +27,7 @@ export class Bird {
     this.#initialY = y;
 
     this.unset();
+    this.#radius = 18;
 
     this.#currentState = Bird.STATES.READY;
   }
@@ -39,7 +40,6 @@ export class Bird {
     this.#y = this.#initialY;
     this.#yVelocity = 0;
     this.#flapForce = 0.2;
-    this.#radius = 18;
   }
 
   update(game) {
@@ -114,5 +114,9 @@ export class Bird {
 
   getFlapUntil() {
     return this.#flapUntilFrame;
+  }
+
+  setRadius(radius) {
+    this.#radius = radius;
   }
 }

@@ -29,6 +29,10 @@ export class Pipe {
     this.#height = h;
   }
 
+  setWidth(width) {
+    this.#width = width;
+  }
+
   setSpeed(speed) {
     this.#speed = speed;
   }

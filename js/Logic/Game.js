@@ -5,6 +5,8 @@ import PipePair from "./PipePair.js";
 import { getRandomNumber } from "../main.js";
 
 export class Game {
+  static PIPE_WIDTH = 80;
+
   static STATES = {
     START: "START",
     RUNNING: "RUNNING",
@@ -38,7 +40,7 @@ export class Game {
   }
 
   createPipes() {
-    let pipeWidth = 80;
+    let pipeWidth = Game.PIPE_WIDTH;
 
     let pipePair;
     let x;

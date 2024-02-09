@@ -88,6 +88,48 @@ export class GameGUI {
         this.#debugManager.close();
       },
     });
+
+    this.#debugManager.addDebugItem({
+      key: "birdradius",
+      name: "Bird Radius",
+      value: this.#game.getBird().getRadius(),
+      changable: true,
+      callback: (value, overrideValue) => {
+        let minValue = 10,
+          maxValue = 40,
+          defaultValue = 18;
+        value = Number.parseInt(value);
+        if (isNaN(value)) return;
+        if (value < minValue || value > maxValue) {
+          alert(
+            `Bird Radius has to be in-between ${minValue} and ${maxValue}! Changing the value to ${defaultValue}!`
+          );
+          overrideValue(defaultValue);
+        }
+        this.#game.getBird().setRadius(value);
+      },
+    });
+    this.#debugManager.addDebugItem({
+      key: "pipeWidth",
+      name: "Pipe Width",
+      value: this.#game.getPipes()[0].getWidth(),
+      changable: true,
+      callback: (value, overrideValue) => {
+        let minValue = 80,
+          maxValue = 150,
+          defaultValue = 80;
+        value = Number.parseInt(value);
+        if (isNaN(value)) return;
+        if (value < minValue || value > maxValue) {
+          alert(
+            `Pipe Width has to be in-between ${minValue} and ${maxValue}! Changing the value to ${defaultValue}!`
+          );
+          overrideValue(defaultValue);
+        }
+        Game.PIPE_WIDTH = value;
+        this.#game.getPipes().forEach((pipe) => pipe.setWidth(value));
+      },
+    });
   }
 
   restart() {

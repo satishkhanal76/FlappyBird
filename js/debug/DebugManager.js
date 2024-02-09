@@ -58,6 +58,7 @@ export default class DebugManager {
    * name: "", //used in debug element
    * element: DOMElement
    * cickable: false,
+   * changable: false,
    * callback: () => {}
    * }
    */
@@ -70,6 +71,7 @@ export default class DebugManager {
     let debugItem = {
       ...item,
       clickable: item.clickable || false,
+      changable: item.changable || false,
     };
     const itemDivElement = this.#createDivElement(item);
     debugItem["element"] = itemDivElement;
@@ -82,24 +84,42 @@ export default class DebugManager {
 
   #createDivElement(item) {
     const itemDiv = document.createElement("div");
-    if (item["clickable"]) {
-      itemDiv.classList.add("clickable");
-      itemDiv.addEventListener("click", item["callback"]);
-    }
 
     itemDiv.setAttribute("data-debug-name", item.name);
     itemDiv.classList.add("debug-item");
 
     const textNode = document.createTextNode(item.value);
-
     itemDiv.appendChild(textNode);
+
+    if (item["clickable"]) {
+      itemDiv.classList.add("clickable");
+      itemDiv.addEventListener("click", item["callback"]);
+    }
+
+    if (item["changable"]) {
+      itemDiv.classList.add("changable");
+      let inputElement = document.createElement("input");
+      inputElement.value = item["value"];
+      inputElement.addEventListener("change", (eve) =>
+        item["callback"](eve.target.value, (overridenValue) => {
+          item.value = overridenValue;
+          inputElement.value = item["value"];
+        })
+      );
+      inputElement.classList.add("input-field");
+      itemDiv.appendChild(inputElement);
+    }
 
     return itemDiv;
   }
 
   #updateTextNode(item) {
     const textNode = item["element"].childNodes[0];
-    textNode.textContent = `${item["name"]}: ${item["value"]}`;
+    if (item["changable"]) {
+      textNode.textContent = `${item["name"]}:`;
+    } else {
+      textNode.textContent = `${item["name"]}: ${item["value"]}`;
+    }
   }
 
   updateDebugItem(key, value) {

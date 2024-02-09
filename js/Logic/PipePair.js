@@ -134,4 +134,14 @@ export default class PipePair {
   hasReceivedPoints() {
     return this.#pointsReceived;
   }
+
+  setWidth(width) {
+    this.#width = width;
+    this.#topPipe.setWidth(this.#width);
+    this.#bottomPipe.setWidth(this.#width);
+  }
+
+  getWidth() {
+    return this.#width;
+  }
 }
