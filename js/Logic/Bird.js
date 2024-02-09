@@ -22,6 +22,8 @@ export class Bird {
 
   #flapUntilFrame = null;
 
+  #flapTime = 80; //in  milliseconds
+
   constructor(x, y) {
     this.#initialX = x;
     this.#initialY = y;
@@ -76,9 +78,9 @@ export class Bird {
 
     let gameLoop = game.getGameLoop();
     let frameCount = gameLoop.getFrameCount();
-    let deltaTime = gameLoop.getDeltaTime();
 
-    this.#flapUntilFrame = Math.floor(frameCount + deltaTime / 3);
+    let numOfFramesToFlap = gameLoop.getAverageFPS() * (this.#flapTime / 1000);
+    this.#flapUntilFrame = frameCount + Math.floor(numOfFramesToFlap);
 
     this.#currentState = Bird.STATES.FLAPPING;
   }
@@ -118,5 +120,13 @@ export class Bird {
 
   setRadius(radius) {
     this.#radius = radius;
+  }
+
+  getFlapTime() {
+    return this.#flapTime;
+  }
+
+  setFlapTime(flaptime) {
+    this.#flapTime = flaptime;
   }
 }

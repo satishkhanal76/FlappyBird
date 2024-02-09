@@ -12,6 +12,10 @@ export default class DebugManager {
 
     this.#addEvenListeners();
 
+    this.#debugElement.style.display == "none"
+      ? (this.#isOpen = false)
+      : (this.#isOpen = true);
+
     this.#addDebugTitle();
   }
 
@@ -39,7 +43,7 @@ export default class DebugManager {
 
   #addEvenListeners() {
     this.#debugButton.addEventListener("click", () => {
-      if (this.#debugElement.style.display === "flex") {
+      if (this.#isOpen) {
         this.close();
       } else {
         this.open();
@@ -100,12 +104,13 @@ export default class DebugManager {
       itemDiv.classList.add("changable");
       let inputElement = document.createElement("input");
       inputElement.value = item["value"];
-      inputElement.addEventListener("change", (eve) =>
+      inputElement.addEventListener("change", (eve) => {
         item["callback"](eve.target.value, (overridenValue) => {
           item.value = overridenValue;
           inputElement.value = item["value"];
-        })
-      );
+        });
+        eve.target.blur();
+      });
       inputElement.classList.add("input-field");
       itemDiv.appendChild(inputElement);
     }

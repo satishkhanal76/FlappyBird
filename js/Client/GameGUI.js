@@ -27,6 +27,8 @@ export class GameGUI {
   #debugManager;
 
   constructor(canvas, debugButton, debugElement) {
+    this.#debugManager = new DebugManager(debugButton, debugElement);
+
     this.#canvas = canvas;
     this.configureCanvas();
 
@@ -36,22 +38,26 @@ export class GameGUI {
     this.#guiLoop.start();
     this.restart();
 
-    this.#debugManager = new DebugManager(debugButton, debugElement);
-
     this.#setUpDebugItems();
   }
 
   #setUpDebugItems() {
     this.#debugManager.addDebugItem({
-      key: "gamestate",
-      name: "Game State",
-      value: this.#game.getCurrentState(),
+      key: "canvaswidth",
+      name: "Canvas Width",
+      value: this.#canvas.style.width,
     });
 
     this.#debugManager.addDebugItem({
-      key: "birdstate",
-      name: "Bird State",
-      value: this.#game.getBird().getCurrentState(),
+      key: "canvasheight",
+      name: "Canvas Height",
+      value: this.#canvas.style.height,
+    });
+
+    this.#debugManager.addDebugItem({
+      key: "gamestate",
+      name: "Game State",
+      value: this.#game.getCurrentState(),
     });
 
     this.#debugManager.addDebugItem({
@@ -73,20 +79,9 @@ export class GameGUI {
     });
 
     this.#debugManager.addDebugItem({
-      key: "pipespeed",
-      name: "Pipe Speed",
-      value: this.#game.getPoints(),
-    });
-
-    this.#debugManager.addDebugItem({
-      key: "collisionrect",
-      name: "Show Collision Area",
-      value: this.#drawCollisionArea,
-      clickable: true,
-      callback: () => {
-        this.#drawCollisionArea = !this.#drawCollisionArea;
-        this.#debugManager.close();
-      },
+      key: "birdstate",
+      name: "Bird State",
+      value: this.#game.getBird().getCurrentState(),
     });
 
     this.#debugManager.addDebugItem({
@@ -104,11 +99,35 @@ export class GameGUI {
           alert(
             `Bird Radius has to be in-between ${minValue} and ${maxValue}! Changing the value to ${defaultValue}!`
           );
+          value = defaultValue;
           overrideValue(defaultValue);
         }
         this.#game.getBird().setRadius(value);
       },
     });
+
+    this.#debugManager.addDebugItem({
+      key: "birdflaptime",
+      name: "Bird Flap Time (milliseconds)",
+      value: this.#game.getBird().getFlapTime(),
+      changable: true,
+      callback: (value, overrideValue) => {
+        let minValue = 40,
+          maxValue = 1000,
+          defaultValue = 80;
+        value = Number.parseInt(value);
+        if (isNaN(value)) return;
+        if (value < minValue || value > maxValue) {
+          alert(
+            `Bird Flap time has to be in-between ${minValue}ms and ${maxValue}ms! Changing the value to ${defaultValue}ms!`
+          );
+          value = defaultValue;
+          overrideValue(defaultValue);
+        }
+        this.#game.getBird().setFlapTime(value);
+      },
+    });
+
     this.#debugManager.addDebugItem({
       key: "pipeWidth",
       name: "Pipe Width",
@@ -124,10 +143,47 @@ export class GameGUI {
           alert(
             `Pipe Width has to be in-between ${minValue} and ${maxValue}! Changing the value to ${defaultValue}!`
           );
+          value = defaultValue;
           overrideValue(defaultValue);
         }
         Game.PIPE_WIDTH = value;
         this.#game.getPipes().forEach((pipe) => pipe.setWidth(value));
+      },
+    });
+
+    this.#debugManager.addDebugItem({
+      key: "pipespeed",
+      name: "Pipe Speed",
+      value: this.#game.getPoints(),
+    });
+
+    this.#debugManager.addDebugItem({
+      key: "pipecollisiondetection",
+      name: "Detect Pipe Collision",
+      value: this.#game.isDetectingCollision(),
+      clickable: true,
+      callback: () => {
+        this.#game.detectCollision(!this.#game.isDetectingCollision());
+        this.#debugManager.updateDebugItem(
+          "pipecollisiondetection",
+          this.#game.isDetectingCollision()
+        );
+        // this.#debugManager.close();
+      },
+    });
+
+    this.#debugManager.addDebugItem({
+      key: "collisionrect",
+      name: "Show Collision Area",
+      value: this.#drawCollisionArea,
+      clickable: true,
+      callback: () => {
+        this.#drawCollisionArea = !this.#drawCollisionArea;
+        this.#debugManager.updateDebugItem(
+          "collisionrect",
+          this.#drawCollisionArea
+        );
+        // this.#debugManager.close();
       },
     });
   }

@@ -27,6 +27,8 @@ export class Game {
 
   #points = 0;
 
+  #detectCollision = true;
+
   constructor(width, height) {
     this.#width = width;
     this.#height = height;
@@ -58,7 +60,7 @@ export class Game {
   }
 
   #getCalculatedPipeSpeed() {
-    let speed = Math.log(this.#points + 1) / Math.log(20) / 9 + 0.2;
+    let speed = Math.log(this.#points + 1) / Math.log(7) / 9 + 0.2;
     return Math.round(speed * 100) / 100;
   }
 
@@ -97,12 +99,12 @@ export class Game {
         this.setCurrentState(Game.STATES.OVER);
       }
 
-      if (pipe.collides(this.#bird)) {
+      if (this.#detectCollision && pipe.collides(this.#bird)) {
         this.setCurrentState(Game.STATES.OVER);
       }
 
       if (pipe.eligibileForPoints(this.#bird)) {
-        this.#points = this.#points + 1;
+        this.#points = this.#points + 5;
         this.#variablePipeSpeed = this.#getCalculatedPipeSpeed();
       }
 
@@ -164,5 +166,17 @@ export class Game {
 
   getPoints() {
     return this.#points;
+  }
+
+  /**
+   *
+   * @param {boolean} detect turn on/off collision detection
+   */
+  detectCollision(detect) {
+    this.#detectCollision = detect;
+  }
+
+  isDetectingCollision() {
+    return this.#detectCollision;
   }
 }
