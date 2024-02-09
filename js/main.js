@@ -24,7 +24,13 @@ canvas.addEventListener("touchstart", (eve) => {
 
 canvas.addEventListener("click", () => {
   if (!document.fullscreenElement) {
-    document.body.requestFullscreen();
+    canvas.requestFullscreen();
   }
-  canvas.style.height = "100%";
+  // canvas.style.height = "100%";
+});
+
+document.body.addEventListener("fullscreenchange", (eve) => {
+  if (!document.fullscreenElement) {
+    // canvas.style.width = "100%";
+  }
 });
