@@ -200,6 +200,17 @@ export class GameGUI {
         this.#game.getWidth() / 2,
         this.#game.getHeight() / 3 + 40
       );
+
+      this.#ctx.strokeText(
+        `Points: ${this.#game.getPoints()}`,
+        this.#game.getWidth() / 2,
+        this.#game.getHeight() / 3 + 80
+      );
+      this.#ctx.fillText(
+        `Points: ${this.#game.getPoints()}`,
+        this.#game.getWidth() / 2,
+        this.#game.getHeight() / 3 + 80
+      );
     }
   }
 

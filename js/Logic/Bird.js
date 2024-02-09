@@ -6,7 +6,7 @@ export class Bird {
     DEAD: "DEAD",
   };
 
-  static GRAVITY = 0.04;
+  static GRAVITY = 0.05;
 
   #initialX;
   #initialY;
@@ -14,7 +14,7 @@ export class Bird {
   #x;
   #y;
   #radius;
-  #flapForce = 0.18;
+  #flapForce;
 
   #yVelocity;
 
@@ -38,7 +38,7 @@ export class Bird {
     this.#x = this.#initialX;
     this.#y = this.#initialY;
     this.#yVelocity = 0;
-    this.#flapForce = 0.15;
+    this.#flapForce = 0.2;
     this.#radius = 18;
   }
 
