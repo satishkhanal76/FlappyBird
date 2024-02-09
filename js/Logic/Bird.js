@@ -14,7 +14,7 @@ export class Bird {
   #x;
   #y;
   #radius;
-  #flapForce = 0.15;
+  #flapForce = 0.18;
 
   #yVelocity;
 
@@ -66,7 +66,7 @@ export class Bird {
     }
 
     if (this.#yVelocity >= 15) this.#yVelocity = 15;
-    if (this.#yVelocity <= -15) this.#yVelocity = -15;
+    if (this.#yVelocity <= -10) this.#yVelocity = -10;
 
     this.#y = this.#y + this.#yVelocity;
   }
