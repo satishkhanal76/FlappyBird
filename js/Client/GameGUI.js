@@ -347,12 +347,12 @@ export class GameGUI {
     }
 
     if (this.#game.getCurrentState() === Game.STATES.OVER) {
+      let highScore = localStorage.getItem("highscore");
+      if (highScore == "null" || highScore < this.#game.getPoints()) {
+        localStorage.setItem("highscore", this.#game.getPoints());
+      }
+
       this.#ctx.strokeText(
-        `GAME OVER`,
-        this.#game.getWidth() / 2,
-        this.#game.getHeight() / 3
-      );
-      this.#ctx.fillText(
         `GAME OVER`,
         this.#game.getWidth() / 2,
         this.#game.getHeight() / 3
@@ -363,21 +363,17 @@ export class GameGUI {
         this.#game.getWidth() / 2,
         this.#game.getHeight() / 3 + 40
       );
-      this.#ctx.fillText(
-        `Press "Space" to Restart!`,
-        this.#game.getWidth() / 2,
-        this.#game.getHeight() / 3 + 40
-      );
 
       this.#ctx.strokeText(
         `Points: ${this.#game.getPoints()}`,
         this.#game.getWidth() / 2,
         this.#game.getHeight() / 3 + 80
       );
-      this.#ctx.fillText(
-        `Points: ${this.#game.getPoints()}`,
+
+      this.#ctx.strokeText(
+        `Highest Points: ${highScore}`,
         this.#game.getWidth() / 2,
-        this.#game.getHeight() / 3 + 80
+        this.#game.getHeight() / 3 + 120
       );
     }
   }
