@@ -11,15 +11,27 @@ export default class DebugManager {
     this.#debugMenus = new Map();
 
     this.#addEvenListeners();
+
+    this.#addDebugTitle();
+  }
+
+  #addDebugTitle() {
+    this.addDebugItem({
+      key: "debugtitle",
+      name: "Debug Menu",
+      value: "",
+    });
+    let debugTitleElement = this.#debugMenus.get("debugtitle");
+    debugTitleElement["element"].setAttribute("class", "debug-title");
   }
 
   #addEvenListeners() {
     this.#debugButton.addEventListener("click", () => {
-      if (this.#debugElement.style.display === "block") {
+      if (this.#debugElement.style.display === "flex") {
         this.#debugElement.style.display = "none";
         this.#isOpen = false;
       } else {
-        this.#debugElement.style.display = "block";
+        this.#debugElement.style.display = "flex";
         this.#isOpen = true;
       }
     });
@@ -35,6 +47,8 @@ export default class DebugManager {
    * value: "", // used in debug element
    * name: "", //used in debug element
    * element: DOMElement
+   * cickable: false,
+   * callback: () => {}
    * }
    */
 
@@ -45,6 +59,7 @@ export default class DebugManager {
   addDebugItem(item) {
     let debugItem = {
       ...item,
+      clickable: item.clickable || false,
     };
     const itemDivElement = this.#createDivElement(item);
     debugItem["element"] = itemDivElement;
@@ -57,7 +72,13 @@ export default class DebugManager {
 
   #createDivElement(item) {
     const itemDiv = document.createElement("div");
+    if (item["clickable"]) {
+      itemDiv.classList.add("clickable");
+      itemDiv.addEventListener("click", item["callback"]);
+    }
+
     itemDiv.setAttribute("data-debug-name", item.name);
+    itemDiv.classList.add("debug-item");
 
     const textNode = document.createTextNode(item.value);
 

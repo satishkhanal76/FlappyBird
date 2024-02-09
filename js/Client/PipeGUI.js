@@ -38,7 +38,7 @@ export class PipeGUI {
       this.#pipe.getWidth(),
       this.#pipe.getHeight()
     );
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 2;
     ctx.strokeStyle = "red";
     ctx.stroke();
   }

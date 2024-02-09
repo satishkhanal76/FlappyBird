@@ -40,7 +40,7 @@ export class BirdGUI {
       2 * Math.PI,
       false
     );
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 2;
     ctx.strokeStyle = "red";
     ctx.stroke();
   }

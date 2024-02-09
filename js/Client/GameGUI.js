@@ -71,6 +71,22 @@ export class GameGUI {
       name: "Points",
       value: this.#game.getPoints(),
     });
+
+    this.#debugManager.addDebugItem({
+      key: "pipespeed",
+      name: "Pipe Speed",
+      value: this.#game.getPoints(),
+    });
+
+    this.#debugManager.addDebugItem({
+      key: "collisionrect",
+      name: "Show Collision Area",
+      value: this.#drawCollisionArea,
+      clickable: true,
+      callback: () => {
+        this.#drawCollisionArea = !this.#drawCollisionArea;
+      },
+    });
   }
 
   restart() {
@@ -144,6 +160,15 @@ export class GameGUI {
         this.#guiLoop.getAverageFPS()
       );
       this.#debugManager.updateDebugItem("points", this.#game.getPoints());
+      this.#debugManager.updateDebugItem(
+        "pipespeed",
+        this.#game.getCurrentPipeSpeed()
+      );
+
+      this.#debugManager.updateDebugItem(
+        "collisionrect",
+        this.#drawCollisionArea
+      );
     }
 
     if (this.#game.getCurrentState() === Game.STATES.RUNNING) {

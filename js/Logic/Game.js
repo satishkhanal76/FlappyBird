@@ -56,7 +56,8 @@ export class Game {
   }
 
   #getCalculatedPipeSpeed() {
-    return Math.log(this.#points + 1) / Math.log(20) / 9 + 0.2;
+    let speed = Math.log(this.#points + 1) / Math.log(20) / 9 + 0.2;
+    return Math.round(speed * 100) / 100;
   }
 
   getCurrentPipeSpeed() {

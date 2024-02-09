@@ -55,4 +55,18 @@ body {
   color: whitesmoke;
 
   display: none;
+  flex-direction: column;
+  gap: 0.3em;
+}
+
+.debug-title {
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 1.2em;
+  color: rgb(124, 253, 95);
+}
+
+.debug-item.clickable {
+  cursor: pointer;
+  color: skyblue;
 }
