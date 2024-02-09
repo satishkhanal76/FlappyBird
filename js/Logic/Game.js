@@ -21,6 +21,7 @@ export class Game {
   #bird;
 
   #pipes = [];
+  #variablePipeSpeed = 0;
 
   #points = 0;
 
@@ -45,15 +46,21 @@ export class Game {
     let distanceFromPrevious = 0;
 
     for (let i = 1; i <= 2; i++) {
-      x = distanceFromPrevious + this.#width / 2 + pipeWidth;
+      x = distanceFromPrevious + this.#width / 1.5;
       pipePair = new PipePair(x, this.#height / 3, pipeWidth, this.#height);
       distanceFromPrevious = x;
       this.#pipes.push(pipePair);
     }
+
+    this.#variablePipeSpeed = this.#getCalculatedPipeSpeed();
   }
 
   #getCalculatedPipeSpeed() {
-    return Math.log10(this.#points + 1) / 9 + 0.2;
+    return Math.log(this.#points + 1) / Math.log(20) / 9 + 0.2;
+  }
+
+  getCurrentPipeSpeed() {
+    return this.#variablePipeSpeed;
   }
 
   createGameLoop() {
@@ -93,11 +100,10 @@ export class Game {
 
       if (pipe.eligibileForPoints(this.#bird)) {
         this.#points = this.#points + 1;
+        this.#variablePipeSpeed = this.#getCalculatedPipeSpeed();
       }
 
       pipe.checkPipePos();
-
-      pipe.setPipeSpeed(this.#getCalculatedPipeSpeed());
     });
 
     // this.checkPipePos();

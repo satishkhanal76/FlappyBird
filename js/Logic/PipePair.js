@@ -55,6 +55,8 @@ export default class PipePair {
   }
 
   update(game) {
+    this.setPipeSpeed(game.getCurrentPipeSpeed());
+
     this.#topPipe.update(game);
     this.#bottomPipe.update(game);
 
@@ -69,7 +71,7 @@ export default class PipePair {
     if (outOfBoundsPipes.length <= 0) return;
     //reset pipe position because the pipes are out of the frame
     this.#pointsReceived = false;
-    this.#x = game.getWidth();
+    this.#x = game.getWidth() + this.#minOffset;
     this.setNewPipePositions();
   }
 
