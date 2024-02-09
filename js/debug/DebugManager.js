@@ -12,7 +12,7 @@ export default class DebugManager {
 
     this.#addEvenListeners();
 
-    this.#debugElement.style.display == "none"
+    this.#debugElement.style.display !== "flex"
       ? (this.#isOpen = false)
       : (this.#isOpen = true);
 

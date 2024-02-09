@@ -129,6 +129,50 @@ export class GameGUI {
     });
 
     this.#debugManager.addDebugItem({
+      key: "birdflapforce",
+      name: "Bird Flap Force",
+      value: this.#game.getBird().getFlapForce(),
+      changable: true,
+      callback: (value, overrideValue) => {
+        let minValue = 0,
+          maxValue = 1,
+          defaultValue = 0.2;
+        value = Number.parseFloat(value);
+        if (isNaN(value)) return;
+        if (value < minValue || value > maxValue) {
+          alert(
+            `Bird Gravity has to be in-between ${minValue}ms and ${maxValue}ms! Changing the value to ${defaultValue}ms!`
+          );
+          value = defaultValue;
+          overrideValue(defaultValue);
+        }
+        this.#game.getBird().setFlapForce(value);
+      },
+    });
+
+    this.#debugManager.addDebugItem({
+      key: "birdgravity",
+      name: "Bird Gravity",
+      value: Bird.GRAVITY,
+      changable: true,
+      callback: (value, overrideValue) => {
+        let minValue = 0,
+          maxValue = 1,
+          defaultValue = 0.05;
+        value = Number.parseFloat(value);
+        if (isNaN(value)) return;
+        if (value < minValue || value > maxValue) {
+          alert(
+            `Bird Gravity has to be in-between ${minValue}ms and ${maxValue}ms! Changing the value to ${defaultValue}ms!`
+          );
+          value = defaultValue;
+          overrideValue(defaultValue);
+        }
+        Bird.GRAVITY = value;
+      },
+    });
+
+    this.#debugManager.addDebugItem({
       key: "pipeWidth",
       name: "Pipe Width",
       value: this.#game.getPipes()[0].getWidth(),

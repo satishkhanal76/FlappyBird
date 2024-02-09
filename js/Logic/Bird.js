@@ -22,7 +22,7 @@ export class Bird {
 
   #flapUntilFrame = null;
 
-  #flapTime = 80; //in  milliseconds
+  #flapTime; //in  milliseconds
 
   constructor(x, y) {
     this.#initialX = x;
@@ -30,6 +30,8 @@ export class Bird {
 
     this.unset();
     this.#radius = 18;
+    this.#flapForce = 0.3;
+    this.#flapTime = 80;
 
     this.#currentState = Bird.STATES.READY;
   }
@@ -41,7 +43,6 @@ export class Bird {
     this.#x = this.#initialX;
     this.#y = this.#initialY;
     this.#yVelocity = 0;
-    this.#flapForce = 0.2;
   }
 
   update(game) {
@@ -128,5 +129,13 @@ export class Bird {
 
   setFlapTime(flaptime) {
     this.#flapTime = flaptime;
+  }
+
+  getFlapForce() {
+    return this.#flapForce;
+  }
+
+  setFlapForce(newForce) {
+    return (this.#flapForce = newForce);
   }
 }
