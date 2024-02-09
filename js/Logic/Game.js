@@ -38,7 +38,6 @@ export class Game {
 
   createPipes() {
     let pipeWidth = 80;
-    let minimumGap = this.#width + pipeWidth;
 
     let pipePair;
     let x;
@@ -46,9 +45,9 @@ export class Game {
     let distanceFromPrevious = 0;
 
     for (let i = 1; i <= 2; i++) {
-      x = distanceFromPrevious + this.#width / 2;
+      x = distanceFromPrevious + this.#width / 2 + pipeWidth;
       pipePair = new PipePair(x, this.#height / 3, pipeWidth, this.#height);
-      distanceFromPrevious += x + pipeWidth;
+      distanceFromPrevious = x;
       this.#pipes.push(pipePair);
     }
   }

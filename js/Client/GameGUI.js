@@ -1,4 +1,5 @@
 import { GameLoop } from "../classes/GameLoop.js";
+import DebugManager from "../debug/DebugManager.js";
 import { Bird } from "../Logic/Bird.js";
 import { Game } from "../Logic/Game.js";
 import BackgroundHandler from "./BackgroundHandler.js";
@@ -23,7 +24,9 @@ export class GameGUI {
   #drawCollisionArea = false;
   #drawObjects = true;
 
-  constructor(canvas) {
+  #debugManager;
+
+  constructor(canvas, debugButton, debugElement) {
     this.#canvas = canvas;
     this.configureCanvas();
 
@@ -32,6 +35,42 @@ export class GameGUI {
     this.#guiLoop = new GameLoop(this);
     this.#guiLoop.start();
     this.restart();
+
+    this.#debugManager = new DebugManager(debugButton, debugElement);
+
+    this.#setUpDebugItems();
+  }
+
+  #setUpDebugItems() {
+    this.#debugManager.addDebugItem({
+      key: "gamestate",
+      name: "Game State",
+      value: this.#game.getCurrentState(),
+    });
+
+    this.#debugManager.addDebugItem({
+      key: "birdstate",
+      name: "Bird State",
+      value: this.#game.getBird().getCurrentState(),
+    });
+
+    this.#debugManager.addDebugItem({
+      key: "logicfps",
+      name: "Game Logic FPS",
+      value: this.#game.getGameLoop().getAverageFPS(),
+    });
+
+    this.#debugManager.addDebugItem({
+      key: "guifps",
+      name: "Game GUI FPS",
+      value: this.#game.getGameLoop().getAverageFPS(),
+    });
+
+    this.#debugManager.addDebugItem({
+      key: "points",
+      name: "Points",
+      value: this.#game.getPoints(),
+    });
   }
 
   restart() {
@@ -83,6 +122,29 @@ export class GameGUI {
     //draw the bird
     if (this.#drawObjects) this.#guiBird.draw(this.#ctx);
     if (this.#drawCollisionArea) this.#guiBird.showCollisionArea(this.#ctx);
+
+    if (this.#debugManager.isOpen()) {
+      this.#debugManager.updateDebugItem(
+        "gamestate",
+        this.#game.getCurrentState()
+      );
+
+      this.#debugManager.updateDebugItem(
+        "birdstate",
+        this.#game.getBird().getCurrentState()
+      );
+
+      this.#debugManager.updateDebugItem(
+        "logicfps",
+        this.#game.getGameLoop().getAverageFPS()
+      );
+
+      this.#debugManager.updateDebugItem(
+        "guifps",
+        this.#guiLoop.getAverageFPS()
+      );
+      this.#debugManager.updateDebugItem("points", this.#game.getPoints());
+    }
 
     if (this.#game.getCurrentState() === Game.STATES.RUNNING) {
       this.#backgroundImageHandler.update();
@@ -142,32 +204,31 @@ export class GameGUI {
   }
 
   keyPressed(eve) {
-    if (this.#game.getCurrentState() === Game.STATES.OVER) {
-      this.restart();
-    }
-
     if (eve.key !== " ") return;
-
-    if (this.#game.getCurrentState() === Game.STATES.START) {
-      this.#game.setCurrentState(Game.STATES.RUNNING);
-      this.#game.getBird().setCurrentState(Bird.STATES.FALLING);
-      return;
-    }
-
-    this.#game.flapBird();
+    this.handleFlap();
   }
 
   clicked() {
-    if (this.#game.getCurrentState() === Game.STATES.OVER) {
-      this.restart();
-    }
+    this.handleFlap();
+  }
 
-    if (this.#game.getCurrentState() === Game.STATES.START) {
-      this.#game.setCurrentState(Game.STATES.RUNNING);
-      this.#game.getBird().setCurrentState(Bird.STATES.FALLING);
-      return;
+  handleFlap() {
+    switch (this.#game.getCurrentState()) {
+      case Game.STATES.START:
+        this.#game.setCurrentState(Game.STATES.RUNNING);
+        this.#game.getBird().setCurrentState(Bird.STATES.FALLING);
+        break;
+
+      case Game.STATES.RUNNING:
+        this.#game.flapBird();
+        break;
+      case Game.STATES.OVER:
+        this.restart();
+        this.#game.setCurrentState(Game.STATES.START);
+        break;
+      default:
+        break;
     }
-    this.#game.flapBird();
   }
 
   configureCanvas() {

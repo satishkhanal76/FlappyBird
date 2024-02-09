@@ -72,7 +72,7 @@ export class Bird {
   }
 
   flap(game) {
-    if (this.#currentState !== Bird.STATES.FALLING) return;
+    if (this.#currentState === Bird.STATES.FLAPPING) return;
 
     let gameLoop = game.getGameLoop();
     let frameCount = gameLoop.getFrameCount();
