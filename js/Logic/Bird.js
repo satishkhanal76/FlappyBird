@@ -1,5 +1,3 @@
-import { Game } from "./Game.js";
-
 export class Bird {
   static STATES = {
     READY: "READY",

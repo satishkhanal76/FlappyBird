@@ -1,7 +1,6 @@
 import { GameLoop } from "../classes/GameLoop.js";
 import { Bird } from "../Logic/Bird.js";
 import { Game } from "../Logic/Game.js";
-import Background from "./Background.js";
 import BackgroundHandler from "./BackgroundHandler.js";
 import { BirdGUI } from "./BirdGUI.js";
 import { PipeGUI } from "./PipeGUI.js";
@@ -109,8 +108,12 @@ export class GameGUI {
     }
 
     if (this.#game.getCurrentState() === Game.STATES.RUNNING) {
-      this.#ctx.strokeText(`Points: ${this.#game.getPoints()}`, 100, 45);
-      // this.#ctx.fillText(`Delta Time: ${this.#game.getDeltaTime()}`, 100, 45);
+      this.#ctx.strokeText(`Points: ${this.#game.getPoints()}`, 100, 25);
+      // this.#ctx.strokeText(
+      //   `FPS: ${Math.floor(this.#game.getGameLoop().getAverageFPS())}`,
+      //   100,
+      //   55
+      // );
     }
 
     if (this.#game.getCurrentState() === Game.STATES.OVER) {

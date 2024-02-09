@@ -1,17 +1,12 @@
-import { Bird } from "../Logic/Bird.js";
-
 export class BirdGUI {
   #bird;
   #rotation;
-
-  #rotationVel;
 
   #image;
 
   constructor(bird) {
     this.#bird = bird;
     this.#rotation = 0;
-    this.#rotationVel = 0;
 
     this.#image = new Image();
     this.#image.src = "./assets/flappybird.png";

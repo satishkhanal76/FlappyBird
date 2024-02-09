@@ -37,14 +37,18 @@ export class Game {
   }
 
   createPipes() {
+    let pipeWidth = 80;
+    let minimumGap = this.#width + pipeWidth;
+
     let pipePair;
+    let x;
+
+    let distanceFromPrevious = 0;
+
     for (let i = 1; i <= 2; i++) {
-      pipePair = new PipePair(
-        (this.#width / 2) * i + getRandomNumber(100, 200),
-        this.#height / 3,
-        80,
-        this.#height
-      );
+      x = distanceFromPrevious + this.#width / 2;
+      pipePair = new PipePair(x, this.#height / 3, pipeWidth, this.#height);
+      distanceFromPrevious += x + pipeWidth;
       this.#pipes.push(pipePair);
     }
   }

@@ -10,13 +10,16 @@ export default class PipePair {
   #gameHeight;
 
   #pointsReceived = false;
+  #minOffset = 0;
 
-  constructor(x, spacing, width, gameHeight) {
+  constructor(x, spacing, width, gameHeight, minOffset = 0) {
     this.#x = x;
     this.#verticalSpacing = spacing;
 
     this.#width = width;
     this.#gameHeight = gameHeight;
+
+    this.#minOffset = minOffset;
 
     this.#topPipe = new Pipe();
     this.#bottomPipe = new Pipe();
@@ -37,7 +40,7 @@ export default class PipePair {
     );
 
     //top pipe
-    x = this.#x;
+    x = this.#x + this.#minOffset;
     y = 0;
     w = this.#width;
     h = spacingStartPoint;
