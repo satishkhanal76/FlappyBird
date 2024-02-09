@@ -78,6 +78,11 @@ export default class PipePair {
     this.#topPipe.setPosition();
   }
 
+  setPipeSpeed(speed) {
+    this.#topPipe.setSpeed(speed);
+    this.#bottomPipe.setSpeed(speed);
+  }
+
   collides(bird) {
     return [this.#topPipe, this.#bottomPipe].some((pipe) =>
       this.collidesWithAPipe(bird, pipe)

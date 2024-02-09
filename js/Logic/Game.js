@@ -52,6 +52,10 @@ export class Game {
     }
   }
 
+  #getCalculatedPipeSpeed() {
+    return Math.log10(this.#points + 1) / 9 + 0.2;
+  }
+
   createGameLoop() {
     this.#gameLoop = new GameLoop(this);
     this.#gameLoop.start();
@@ -92,7 +96,10 @@ export class Game {
       }
 
       pipe.checkPipePos();
+
+      pipe.setPipeSpeed(this.#getCalculatedPipeSpeed());
     });
+
     // this.checkPipePos();
   }
 

@@ -6,6 +6,8 @@ export class Pipe {
   #width;
   #height;
 
+  #speed = 0.2; //speed changes as game points increases so this is initial speed
+
   #isTopPipe = true;
 
   constructor(x, y, w, h) {
@@ -27,10 +29,14 @@ export class Pipe {
     this.#height = h;
   }
 
+  setSpeed(speed) {
+    this.#speed = speed;
+  }
+
   update(game) {
     if (game.getCurrentState() !== Game.STATES.RUNNING) return;
     let deltatime = game.getDeltaTime();
-    this.#x = this.#x - 0.2 * deltatime;
+    this.#x = this.#x - this.#speed * deltatime;
   }
 
   getX() {
