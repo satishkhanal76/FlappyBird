@@ -25,14 +25,24 @@ export default class DebugManager {
     debugTitleElement["element"].setAttribute("class", "debug-title");
   }
 
+  close() {
+    this.#isOpen = false;
+
+    this.#debugElement.style.display = "none";
+  }
+
+  open() {
+    this.#isOpen = true;
+
+    this.#debugElement.style.display = "flex";
+  }
+
   #addEvenListeners() {
     this.#debugButton.addEventListener("click", () => {
       if (this.#debugElement.style.display === "flex") {
-        this.#debugElement.style.display = "none";
-        this.#isOpen = false;
+        this.close();
       } else {
-        this.#debugElement.style.display = "flex";
-        this.#isOpen = true;
+        this.open();
       }
     });
   }

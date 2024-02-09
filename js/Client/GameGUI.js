@@ -85,6 +85,7 @@ export class GameGUI {
       clickable: true,
       callback: () => {
         this.#drawCollisionArea = !this.#drawCollisionArea;
+        this.#debugManager.close();
       },
     });
   }
