@@ -104,7 +104,7 @@ export class Game {
       }
 
       if (pipe.eligibileForPoints(this.#bird)) {
-        this.#points = this.#points + 5;
+        this.#points = this.#points + 1;
         this.#variablePipeSpeed = this.#getCalculatedPipeSpeed();
       }
 
