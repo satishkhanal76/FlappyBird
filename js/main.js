@@ -17,15 +17,16 @@ body.addEventListener("keypress", (eve) => {
   gameGUI.keyPressed(eve);
 });
 
-canvas.addEventListener("touchstart", (eve) => {
+/* canvas.addEventListener("touchstart", (eve) => {
   if (!document.fullscreenElement) return;
   gameGUI.clicked(eve);
 });
-
+*/
 canvas.addEventListener("click", () => {
-  if (!document.fullscreenElement) {
-    canvas.requestFullscreen();
-  }
+ // if (!document.fullscreenElement) {
+    //canvas.requestFullscreen();
+  //}
+    gameGUI.clicked(eve);
   // canvas.style.height = "100%";
 });
 
