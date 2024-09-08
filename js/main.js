@@ -11,27 +11,24 @@ const canvas = document.getElementById("game-canvas");
 
 const gameGUI = new GameGUI(canvas, debugButton, debugMenuElement);
 
-const body = document.body;
+const isTouchDevice = () => {
+  return (
+    "ontouchstart" in window ||
+    navigator.maxTouchPoints > 0 ||
+    navigator.msMaxTouchPoints > 0
+  );
+};
 
-body.addEventListener("keypress", (eve) => {
-  gameGUI.keyPressed(eve);
-});
-
-/* canvas.addEventListener("touchstart", (eve) => {
-  if (!document.fullscreenElement) return;
-  gameGUI.clicked(eve);
-});
-*/
-canvas.addEventListener("click", () => {
- // if (!document.fullscreenElement) {
-    //canvas.requestFullscreen();
-  //}
+if (isTouchDevice()) {
+  canvas.addEventListener("touchstart", (eve) => {
     gameGUI.clicked(eve);
-  // canvas.style.height = "100%";
-});
+  });
+} else {
+  document.body.addEventListener("keypress", (eve) => {
+    gameGUI.keyPressed(eve);
+  });
 
-document.body.addEventListener("fullscreenchange", (eve) => {
-  if (!document.fullscreenElement) {
-    // canvas.style.width = "100%";
-  }
-});
+  canvas.addEventListener("click", (eve) => {
+    if (!document.fullscreenElement) canvas.requestFullscreen();
+  });
+}

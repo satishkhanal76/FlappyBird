@@ -33,6 +33,8 @@ export class GameLoop {
 
     this.#deltaTime = timestamp - this.#lastTimeStamp;
 
+    if (this.#deltaTime === Infinity) this.#deltaTime = 0;
+
     this.#accumulation = this.#accumulation + this.getFPS();
     this.#accumulationCount = this.#accumulationCount + 1;
     this.#averageFPS = Math.floor(this.#accumulation / this.#accumulationCount);
