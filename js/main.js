@@ -19,16 +19,27 @@ const isTouchDevice = () => {
   );
 };
 
+function goFullscreen(element) {
+  if (element.requestFullscreen) {
+    element.requestFullscreen();
+  } else if (element.webkitRequestFullscreen) { // Safari
+    element.webkitRequestFullscreen();
+  } else if (element.msRequestFullscreen) { // IE11
+    element.msRequestFullscreen();
+  } else {
+    console.log("Fullscreen API is not supported.");
+  }
+}
+
 if (isTouchDevice()) {
   canvas.addEventListener("touchstart", (eve) => {
+    goFullscreen(canvas);
     gameGUI.clicked(eve);
   });
 } else {
   document.body.addEventListener("keypress", (eve) => {
+    goFullscreen(canvas);
     gameGUI.keyPressed(eve);
   });
-
-  canvas.addEventListener("click", (eve) => {
-    if (!document.fullscreenElement) canvas.requestFullscreen();
-  });
 }
+
